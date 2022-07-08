@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
-import Vue from "vue";
 import "dayjs/locale/en-au";
 dayjs.locale("en-au");
-import { App, VueElement } from "vue";
+import { App} from "vue";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
