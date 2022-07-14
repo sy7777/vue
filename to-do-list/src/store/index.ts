@@ -36,6 +36,9 @@ const getters: GetterTree<IItemListState, IItemListState> = {
     });
     return filteredList;
   },
+  doneList:(state) => {
+    return state.itemList.filter(item=>item.isTicked)
+  }
 };
 // mutations
 const mutations: MutationTree<IItemListState> = {

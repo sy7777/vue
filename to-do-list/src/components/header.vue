@@ -11,9 +11,16 @@
             v-model="itemName"
             @keyup.enter="addItem"
           />
-          <a href="#!" data-mdb-toggle="tooltip" title="Set due date"
-            ><i class="fas fa-calendar-alt fa-lg me-3"></i
-          ></a>
+          <Datepicker
+                v-model="dueDate"
+                position="left"
+                :time-picker-component="timePicker"
+                class="datepicker"
+              />
+          <!-- <a href="#!" data-mdb-toggle="tooltip" title="Set due date"
+            ><i class="fas fa-calendar-alt fa-lg me-3">
+               </i
+          ></a> -->
           <div>
             <button type="button" class="btn btn-primary" @click="addItem">
               Add
@@ -28,16 +35,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineAsyncComponent, defineComponent } from "vue";
 // import { mapGetters, mapMutations, mapState } from "vuex";
 
 // import dayjs from "dayjs";
 import { v4 as uuidv4 } from "uuid";
+const TimePicker = defineAsyncComponent(() => import("./time-picker.vue"));
 export default defineComponent({
   name: "MyHeader",
   data() {
     return {
       itemName: undefined,
+      dueDate: new Date(),
+      timePicker: TimePicker,
     };
   },
 
@@ -61,7 +71,7 @@ export default defineComponent({
           isEdit: false,
           isDel: false,
           createdTime: this.$dayjs().toDate(),
-          // createdTime: this.getCurrentTime(),
+          dueDate: this.dueDate,
         };
         console.log(itemDetail);
         // this.addItem(itemDetail);
@@ -94,5 +104,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.datepicker{
+  width:30%;
+  margin-right: 2rem;
 }
 </style>

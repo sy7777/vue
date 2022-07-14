@@ -22,6 +22,7 @@
                 @addFilter="addFilter($event)"
                 @removeFilter="removeFilter($event)"
               ></MyList>
+              <MyFooter :itemList = "itemList"/>
             </div>
           </div>
         </div>
@@ -31,10 +32,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import MyHeader from "@/components/header.vue"; // @ is an alias to /src
 import MyList from "@/components/list.vue"; // @ is an alias to /src
+import MyFooter from "@/components/footer.vue"; // @ is an alias to /src
 import { mapGetters, mapMutations } from "vuex";
 import { IItem } from "../models";
 
@@ -43,10 +45,12 @@ export default defineComponent({
   components: {
     MyHeader,
     MyList,
+    MyFooter
   },
   computed: {
     ...mapGetters(["itemList"]),
   },
+
   methods: {
     ...mapMutations(["addItem", "setItemTicked", "delteItem","updateItemInVuex", "addFilter", "removeFilter",]),
     onAddItemToVuex(itemDetail: IItem) {
