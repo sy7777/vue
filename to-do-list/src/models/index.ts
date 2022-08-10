@@ -7,3 +7,9 @@ export interface IItem {
     createdTime: Date;
     dueDate: Date;
 }
+
+export interface IData{
+    name?: string;
+    time?: string;
+    date?: string;
+  }

@@ -1,4 +1,4 @@
-import { IItem } from "@/models";
+import { IData, IItem } from "@/models";
 import { ActionTree, createStore, GetterTree, MutationTree } from "vuex";
 export interface ItemFilter {
   name: FilterType;
@@ -7,6 +7,7 @@ export interface ItemFilter {
 export interface IItemListState {
   itemList: IItem[];
   filters: ItemFilter[];
+  testOptions: IData[];
 }
 export enum FilterType {
   FINISH_STATUS = "finished",
@@ -14,6 +15,7 @@ export enum FilterType {
 const defaultState: IItemListState = {
   itemList: [],
   filters: [],
+  testOptions: [],
 };
 // getters
 const getters: GetterTree<IItemListState, IItemListState> = {
@@ -36,9 +38,9 @@ const getters: GetterTree<IItemListState, IItemListState> = {
     });
     return filteredList;
   },
-  doneList:(state) => {
-    return state.itemList.filter(item=>item.isTicked)
-  }
+  doneList: (state) => {
+    return state.itemList.filter((item) => item.isTicked);
+  },
 };
 // mutations
 const mutations: MutationTree<IItemListState> = {
@@ -71,6 +73,24 @@ const mutations: MutationTree<IItemListState> = {
   },
   removeFilter(state, type: FilterType) {
     state.filters = state.filters.filter((f) => f.name !== type);
+  },
+  setOptions(state, data: IData) {
+    console.log(data);
+
+    if (state.testOptions?.findIndex((f) => f.name !== data.name) !== -1) {
+      if (state.testOptions?.findIndex((f) => f.time !== data.time) !== -1) {
+        state.testOptions = state.testOptions.filter(
+          (item) => item.time !== data.time
+        );
+      }
+      if (state.testOptions?.findIndex((f) => f.date !== data.date) !== -1) {
+        state.testOptions = state.testOptions.filter(
+          (item) => item.date !== data.date
+        );
+      }
+    } else {
+      state.testOptions.push(data);
+    }
   },
 };
 // actions

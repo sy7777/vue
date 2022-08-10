@@ -22,13 +22,65 @@
                 @addFilter="addFilter($event)"
                 @removeFilter="removeFilter($event)"
               ></MyList>
-              <MyFooter :itemList = "itemList"/>
+              <MyFooter :itemList="itemList" />
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <ul
+    class="list-group list-group-horizontal rounded-0 bg-transparent"
+    v-for="(option, index) in options"
+    :key="index"
+  >
+    <li
+      class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent"
+    >
+      <div class="form-check">
+        <input
+          class="form-check-input me-0"
+          type="checkbox"
+          :value="option"
+          :checked="itemList.testOptions?.includes(option)"
+          @change="
+            setOptions({
+              name: option,
+              time: `11111`,
+            })
+          "
+          id="flexCheckChecked1"
+          aria-label="..."
+        />
+      </div>
+    </li>
+    <!--   :value="setItemTicked(item.isTicked)"-->
+    <li
+      class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent"
+    >
+      {{ option }}
+      <p class="lead fw-normal mb-0"></p>
+    </li>
+    <li
+      class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent"
+    >
+      <input
+        class="form-check-input me-0"
+        type="checkbox"
+        :value="option"
+        :checked="itemList.testOptions?.includes(option)"
+        id="flexCheckChecked1"
+        aria-label="..."
+        @change="
+          setOptions({
+            name: option,
+            date: `22222`,
+          })
+        "
+      />
+    </li>
+  </ul>
 </template>
 
 <script lang="ts">
@@ -45,14 +97,27 @@ export default defineComponent({
   components: {
     MyHeader,
     MyList,
-    MyFooter
+    MyFooter,
   },
   computed: {
     ...mapGetters(["itemList"]),
   },
 
+  data() {
+    return {
+      options: ["study", "reading", "exam"],
+    };
+  },
   methods: {
-    ...mapMutations(["addItem", "setItemTicked", "delteItem","updateItemInVuex", "addFilter", "removeFilter",]),
+    ...mapMutations([
+      "addItem",
+      "setItemTicked",
+      "delteItem",
+      "updateItemInVuex",
+      "addFilter",
+      "removeFilter",
+      "setOptions",
+    ]),
     onAddItemToVuex(itemDetail: IItem) {
       this.addItem(itemDetail);
     },
@@ -63,8 +128,8 @@ export default defineComponent({
       //  console.log(id);
       this.delteItem(id);
     },
-    onUpdateItem(itemObj: IItem){
-      this.updateItemInVuex(itemObj)
+    onUpdateItem(itemObj: IItem) {
+      this.updateItemInVuex(itemObj);
     },
   },
 });
