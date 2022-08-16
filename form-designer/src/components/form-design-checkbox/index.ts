@@ -1,0 +1,1 @@
+export { default as FormDesignCheckbox} from './form-design-checkbox.vue';

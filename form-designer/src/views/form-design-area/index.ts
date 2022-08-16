@@ -1,0 +1,1 @@
+export { default as FormDesignArea } from "./form-design-area.vue";

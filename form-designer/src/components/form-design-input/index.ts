@@ -1,0 +1,1 @@
+export { default as FormDesignInput} from './form-design-input.vue';

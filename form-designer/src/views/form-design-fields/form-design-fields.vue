@@ -1,0 +1,91 @@
+<template>
+  <div class="col">
+    <span>Basic Fields</span><br />
+    <div class="d-flex justify-content-between form-designer-field-list">
+      <div class="form-designer-field form-draggable" @click="emitFormField()">
+        <strong>Input box</strong>
+        <i class="bi bi-input-cursor form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Textarea</strong>
+        <i class="bi bi-card-text form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Number</strong>
+        <i class="bi bi-123 form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Single Select</strong>
+        <i class="bi bi-check2-circle form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Multiple Select</strong>
+        <i class="bi bi-check2-square form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Table</strong>
+        <i class="bi bi-grid-3x2 form-icon"></i>
+      </div>
+      <div class="form-designer-field form-draggable">
+        <strong>Button</strong>
+        <i class="bi bi-bootstrap form-icon"></i>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.col {
+  border: 1px solid #000;
+  height: 100%;
+}
+.form-designer-field-list {
+  width: 330px;
+  padding: 0 10px 10px 20px;
+  flex-flow: row wrap;
+  min-width: 357px;
+}
+.form-designer-field {
+  background-color: #25623f;
+  color: #fff;
+  border-radius: 4px;
+  cursor: move;
+  font-size: 13px;
+  height: 32px;
+  line-height: 24px;
+  margin: 10px 0 0;
+  overflow: hidden;
+  padding: 4px 24px 4px 8px;
+  position: relative;
+  text-align: left;
+  text-overflow: ellipsis;
+  transition: border-color 0.3s ease;
+  white-space: nowrap;
+  width: 145px;
+}
+.form-designer-field .form-icon {
+  font-size: 20px;
+  position: absolute;
+  right: 8px;
+  top: 5px;
+}
+</style>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+export interface FieldDetail {
+  type: string;
+  name: string;
+  icon: string;
+}
+
+export default defineComponent({
+  name: "FormDesignFields",
+  data() {
+    return {};
+  },
+  methods: {
+    emitFormField() {},
+  },
+});
+</script>
