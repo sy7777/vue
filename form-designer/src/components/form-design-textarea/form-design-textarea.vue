@@ -45,6 +45,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "FormDesignFields",
+  name: "FormDesignTextarea",
 });
 </script>

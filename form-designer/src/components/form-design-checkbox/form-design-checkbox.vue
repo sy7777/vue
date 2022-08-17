@@ -20,7 +20,7 @@
   background-color: #25623f;
   color: #fff;
   border-radius: 4px;
-  cursor: move;
+  cursor: pointer;
   font-size: 13px;
   height: 32px;
   line-height: 24px;

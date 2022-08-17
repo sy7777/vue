@@ -1,7 +1,7 @@
 <template>
-  <div class="form-designer-field form-draggable">
+  <div class="form-draggable">
     <strong>Input box</strong>
-    <i class="bi bi-input-cursor form-icon"></i>
+    <input type="text" class="form-control">
   </div>
 </template>
 
@@ -20,7 +20,7 @@
   background-color: #25623f;
   color: #fff;
   border-radius: 4px;
-  cursor: move;
+  cursor: pointer;
   font-size: 13px;
   height: 32px;
   line-height: 24px;
@@ -44,5 +44,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-export default defineComponent({});
+export default defineComponent({
+  name:"Input"
+});
 </script>

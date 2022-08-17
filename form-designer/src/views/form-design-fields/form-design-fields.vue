@@ -1,55 +1,109 @@
 <template>
   <div class="col">
     <span>Basic Fields</span><br />
-    <div class="d-flex justify-content-between form-designer-field-list">
-      <div class="form-designer-field form-draggable" @click="emitFormField()">
-        <strong>Input box</strong>
-        <i class="bi bi-input-cursor form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Textarea</strong>
-        <i class="bi bi-card-text form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Number</strong>
-        <i class="bi bi-123 form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Single Select</strong>
-        <i class="bi bi-check2-circle form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Multiple Select</strong>
-        <i class="bi bi-check2-square form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Table</strong>
-        <i class="bi bi-grid-3x2 form-icon"></i>
-      </div>
-      <div class="form-designer-field form-draggable">
-        <strong>Button</strong>
-        <i class="bi bi-bootstrap form-icon"></i>
+    <div class="container">
+      <div class="row gx-5 gy-4">
+        <div
+          class="d-flex justify-content-between form-designer-field-list  col-6"
+          v-for="field in fields"
+        >
+          <div
+            class="form-designer-field form-draggable"
+            @click="emitFormField(field.type)"
+          >
+            <strong>{{ field.name }}</strong>
+            <i :class="field.icon"></i>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
+<script lang="ts">
+import { FieldDetail, FieldType, FormJsonSchema } from "@/models";
+import { defineComponent } from "vue";
+import { v4 as uuidv4 } from "uuid";
+interface FieldList {
+  fields: FieldDetail[];
+}
+export default defineComponent({
+  name: "FormDesignFields",
+  data(): FieldList {
+    return {
+      fields: [
+        {
+          type: FieldType.INPUT,
+          name: "Input box",
+          icon: "bi-input-cursor bi form-icon",
+        },
+        {
+          type: FieldType.TEXTAREA,
+          name: "Textarea",
+          icon: "bi-card-text bi form-icon",
+        },
+        // {
+        //   type: FieldType.,
+        //   name: "Number",
+        //   icon: "bi-123 bi form-icon",
+        // },
+        {
+          type: FieldType.RADIO,
+          name: "Single Select",
+          icon: "bi-check2-circle bi form-icon",
+        },
+        {
+          type: FieldType.CHECKBOX,
+          name: "Multiple Select",
+          icon: "bi-check2-square bi form-icon",
+        },
+        // {
+        //   type: "table",
+        //   name: "Table",
+        //   icon: "bi-grid-3x2 bi form-icon",
+        // },
+        // {
+        //   type: "button",
+        //   name: "Button",
+        //   icon: "bi-bootstrap bi form-icon",
+        // },
+      ],
+    };
+  },
+  methods: {
+    emitFormField(type: FieldType) {
+      let formJsonSchema: FormJsonSchema = {
+        id: uuidv4(),
+        type: type,
+        name: "Default name",
+        title: "Default Title",
+        // options: [],
+        required: false,
+      };
+      if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
+        formJsonSchema = { ...formJsonSchema, options: [] };
+      }
+      this.$emit("onAddItem", formJsonSchema);
+    },
+  },
+});
+</script>
+
 <style scoped>
 .col {
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
   height: 100%;
 }
 .form-designer-field-list {
-  width: 330px;
+  /* width: 330px; */
   padding: 0 10px 10px 20px;
   flex-flow: row wrap;
-  min-width: 357px;
 }
 .form-designer-field {
   background-color: #25623f;
   color: #fff;
   border-radius: 4px;
-  cursor: move;
+  cursor: pointer;
   font-size: 13px;
   height: 32px;
   line-height: 24px;
@@ -70,22 +124,3 @@
   top: 5px;
 }
 </style>
-
-<script lang="ts">
-import { defineComponent } from "vue";
-export interface FieldDetail {
-  type: string;
-  name: string;
-  icon: string;
-}
-
-export default defineComponent({
-  name: "FormDesignFields",
-  data() {
-    return {};
-  },
-  methods: {
-    emitFormField() {},
-  },
-});
-</script>
