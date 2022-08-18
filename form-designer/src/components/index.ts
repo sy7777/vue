@@ -4,3 +4,5 @@ export * from "./form-design-checkbox";
 export * from "./form-design-input";
 export * from "./form-design-radio";
 export * from "./form-design-textarea";
+export * from "./form-design-number";
+export * from "./form-design-table";

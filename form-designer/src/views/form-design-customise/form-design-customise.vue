@@ -1,16 +1,9 @@
 <template>
-  <div class="col">
+  <div>
     Customise the field
     <div v-if="selectedSchema">{{ selectedSchema.id }}</div>
   </div>
 </template>
-
-<style scoped>
-.col {
-  /* border: 1px solid #000; */
-  height: max-content;
-}
-</style>
 
 <script lang="ts">
 import { FormJsonSchema } from "@/models";

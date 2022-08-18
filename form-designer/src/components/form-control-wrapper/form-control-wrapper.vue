@@ -1,15 +1,21 @@
 <template>
   <div
-    class="form-control-wrapper row"
+    class="form-control-wrapper row d-flex justify-content-center"
     @mouseover="showControlOption = true"
     @mouseleave="showControlOption = false"
   >
     <span class="control-view col-md-8">
       <slot></slot>
     </span>
-    <span class="control-option-container col-md-1" :class="getControlOptionClass()">
-      <i class="bi bi-gear" @click="editSchema()"></i>
-      <i class="bi bi-trash" @click="deleteSchema()"></i>
+    <span
+      class="control-option-container col-md-1"
+      :class="getControlOptionClass()"
+    >
+      <div class="d-flex flex-column align-self-center justify-content-center">
+        <i class="bi bi-arrows-move"></i>
+        <i class="bi bi-gear" @click="editSchema()"></i>
+        <i class="bi bi-trash" @click="deleteSchema()"></i>
+      </div>
     </span>
   </div>
 </template>
@@ -33,12 +39,12 @@ export default defineComponent({
         show: this.showControlOption,
       };
     },
-    deleteSchema(){
-      this.$emit("onDelSchema")
+    deleteSchema() {
+      this.$emit("onDelSchema");
     },
-    editSchema(){
-      this.$emit("onEditSchema")
-    }
+    editSchema() {
+      this.$emit("onEditSchema");
+    },
   },
 });
 </script>
@@ -47,18 +53,19 @@ export default defineComponent({
 <style scoped>
 .control-option-container {
   position: absolute;
-  top: 0;
-  left: 77%;
-  border: 1px solid #bdc3c7;
-  background-color: #fff;
+  border: 1px solid #25623f;
+  background-color: #25623f;
   display: none;
+  text-align: center;
+  left: 84%;
 }
 .control-option-container.show {
   display: block;
+  /* height: 66px; */
+  /* line-height: 66px; */
 }
 .form-control-wrapper {
   position: relative;
-  margin-top: 10px;
   padding-left: 0;
 }
 .control-view {
@@ -66,5 +73,9 @@ export default defineComponent({
   border: 1px solid transparent;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+i {
+  color: #fff;
+  cursor: pointer;
 }
 </style>

@@ -1,13 +1,12 @@
 <template>
-<div class="main-container">
+  <div class="main-container">
     <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/form">Form Designer</router-link>
-  </nav>
-  <router-view/>
-</div>
-
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/form">Form Designer</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
 <style>
@@ -18,11 +17,13 @@
   text-align: center;
   color: #2c3e50;
 }
-html,body,#app{
+html,
+body,
+#app {
   height: 100%;
-   width: 100%;
+  width: 100%;
 }
-.main-container{
+.main-container {
   width: 100%;
   height: 100%;
   /* background-color: #42b983; */

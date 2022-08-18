@@ -1,0 +1,1 @@
+export { default as FormDesignTable} from './form-design-table.vue';

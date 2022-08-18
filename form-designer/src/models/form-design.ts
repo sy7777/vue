@@ -9,14 +9,16 @@ export enum FieldType {
   RADIO = "FormDesignRadio",
   CHECKBOX = "FormDesignCheckbox",
   TEXTAREA = "FormDesignTextarea",
+  NUMBER = "FormDesignNumber",
+  TABLE = "FormDesignTable",
 }
 export interface FormJsonSchema {
   id: string;
   type: FieldType;
-  name?: string;
-  title?: string;
+  name: string;
+  title: string;
   options?: FormOptionSchema[];
-  required?: boolean;
+  required: boolean;
 }
 interface FormOptionSchema {
   value: string;

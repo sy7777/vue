@@ -1,28 +1,31 @@
 <template>
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb d-flex justify-content-center">
-      <li class="breadcrumb-item active"><a href="#">Form Design</a></li>
-      <li class="breadcrumb-item"><a href="#">Preview the form</a></li>
-    </ol>
-  </nav>
-  <div class="row form-container">
-    <FormDesignFields @onAddItem="addToFormJson($event)" />
-    <FormDesignArea :jsonForms="formJson" @onDelSchema="deleteSchema($event)" @onEditSchema="onSelectSchema($event)"/>
-    <FormDesignCustomise :schema = "selectedSchema"/>
+  <div class="form-container">
+    <!-- <nav aria-label="breadcrumb"> -->
+      <ol class="breadcrumb d-flex justify-content-center">
+        <li class="breadcrumb-item active">Form Design</li>
+        <li class="breadcrumb-item">
+          <button @click="previewForm">Preview the form</button>
+        </li>
+      </ol>
+    <!-- </nav> -->
+
+    <div class="d-flex justify-content-between row form-detail-box">
+      <FormDesignFields @onAddItem="addToFormJson($event)" class="col"/>
+      <FormDesignArea
+      class="col-6"
+        :jsonForms="formJson"
+        @onDelSchema="deleteSchema($event)"
+        @onEditSchema="onSelectSchema($event)"
+      />
+      <FormDesignCustomise :schema="selectedSchema"   class="col"/>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.form-container {
-  width: 100%;
-  min-width: 1026px;
-  height: 80%;
-}
-</style>
 
 <script lang="ts">
 import { FormJsonSchema } from "@/models";
 import { defineComponent } from "vue";
+import { ModalSize } from "vue-bs-modal";
 import { FormDesignArea } from "../form-design-area";
 import { FormDesignCustomise } from "../form-design-customise";
 import { FormDesignFields } from "../form-design-fields";
@@ -53,11 +56,32 @@ export default defineComponent({
     deleteSchema(id: string) {
       this.formJson = this.formJson.filter((schema) => schema.id !== id);
     },
-    onSelectSchema(id:string){
+    onSelectSchema(id: string) {
       console.log(id);
-      this.selectedSchema = this.formJson.find(schema => schema.id === id);
-      console.log(this.selectedSchema );
-    }
+      this.selectedSchema = this.formJson.find((schema) => schema.id === id);
+      console.log(this.selectedSchema);
+    },
+    previewForm() {
+      this.$vbsModal.open({
+        content: FormDesignArea,
+        contentProps: { jsonForms: this.formJson, preview: true },
+        size: ModalSize.LARGE,
+      });
+    },
   },
 });
 </script>
+
+<style scoped>
+.form-container {
+  width: 100%;
+  min-width: 1248px;
+  height: calc(100% - 64px);
+  border: 7px dashed #25623f;
+}
+.form-detail-box{
+  width: 100%;
+  height: calc(100% - 64px);
+}
+</style>
+

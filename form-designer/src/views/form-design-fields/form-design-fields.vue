@@ -1,19 +1,17 @@
 <template>
-  <div class="col">
+  <div>
     <span>Basic Fields</span><br />
-    <div class="container">
-      <div class="row gx-5 gy-4">
+    <div class="row gx-4 gy-1">
+      <div
+        class="d-flex justify-content-between form-designer-field-list col-6"
+        v-for="field in fields"
+      >
         <div
-          class="d-flex justify-content-between form-designer-field-list  col-6"
-          v-for="field in fields"
+          class="form-designer-field form-draggable"
+          @click="emitFormField(field.type)"
         >
-          <div
-            class="form-designer-field form-draggable"
-            @click="emitFormField(field.type)"
-          >
-            <strong>{{ field.name }}</strong>
-            <i :class="field.icon"></i>
-          </div>
+          <strong>{{ field.name }}</strong>
+          <i :class="field.icon"></i>
         </div>
       </div>
     </div>
@@ -42,11 +40,11 @@ export default defineComponent({
           name: "Textarea",
           icon: "bi-card-text bi form-icon",
         },
-        // {
-        //   type: FieldType.,
-        //   name: "Number",
-        //   icon: "bi-123 bi form-icon",
-        // },
+        {
+          type: FieldType.NUMBER,
+          name: "Number",
+          icon: "bi-123 bi form-icon",
+        },
         {
           type: FieldType.RADIO,
           name: "Single Select",
@@ -57,11 +55,11 @@ export default defineComponent({
           name: "Multiple Select",
           icon: "bi-check2-square bi form-icon",
         },
-        // {
-        //   type: "table",
-        //   name: "Table",
-        //   icon: "bi-grid-3x2 bi form-icon",
-        // },
+        {
+          type: FieldType.TABLE,
+          name: "Table",
+          icon: "bi-grid-3x2 bi form-icon",
+        },
         // {
         //   type: "button",
         //   name: "Button",
@@ -81,7 +79,10 @@ export default defineComponent({
         required: false,
       };
       if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
-        formJsonSchema = { ...formJsonSchema, options: [] };
+        formJsonSchema = {
+          ...formJsonSchema,
+          options: [{ value: "default option" }],
+        };
       }
       this.$emit("onAddItem", formJsonSchema);
     },
@@ -90,13 +91,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.col {
-  /* border: 1px solid #000; */
-  height: 100%;
-}
 .form-designer-field-list {
-  /* width: 330px; */
-  padding: 0 10px 10px 20px;
+  padding: 0 10px 7px 30px;
   flex-flow: row wrap;
 }
 .form-designer-field {
