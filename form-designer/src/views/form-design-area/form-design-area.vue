@@ -1,22 +1,29 @@
 <template>
   <div class="design-container" :class="{ 'modal-body': preview }">
-    <div class="text-center" v-if="!preview">Design your form</div>
-    <div v-for="form in jsonForms" :key="form.id">
-      <div v-if="preview">
+    <div class="text-center p-2" v-if="!preview">Design your form</div>
+    <div v-if="preview">
+      <div v-for="form in schema.controls" :key="form.id">
         <component
           :is="form.type"
           :schema="form"
           v-model="formValues[form.name]"
         ></component>
       </div>
-      <div v-else>
-        <FormDesignWrapper
-          @onDelSchema="delSchema(form.id)"
-          @onEditSchema="editSchema(form.id)"
-          ><component :is="form.type" :schema="form"></component
-        ></FormDesignWrapper>
-      </div>
     </div>
+    <div v-else>
+      <VueDraggableNext v-model="schema.controls"  ghost-class="ghost" handle=".drag-handle" @change="reorder">
+        <transition-group name="list" >
+          <div v-for="form in schema.controls" :key="form.id">
+            <FormDesignWrapper
+              @onDelSchema="delSchema(form.id)"
+              @onEditSchema="editSchema(form.id)"
+              ><component :is="form.type" :schema="form"></component
+            ></FormDesignWrapper>
+          </div>
+        </transition-group>
+      </VueDraggableNext>
+    </div>
+
     <button @click="showFormInfo()" v-if="preview">Show</button>
   </div>
 </template>
@@ -30,11 +37,14 @@ import {
   FormDesignNumber,
   FormDesignWrapper,
   FormDesignTable,
+  FormDesignText,
 } from "@/components";
-import { FormJsonSchema } from "@/models";
+import { FormControlJsonSchema, FormJsonSchema } from "@/models";
+import { VueDraggableNext } from "vue-draggable-next";
 import { defineComponent, PropType } from "vue";
 interface IData {
   formValues: Record<string, any>;
+  schema: FormJsonSchema;
 }
 export default defineComponent({
   name: "FormDesignArea",
@@ -45,15 +55,18 @@ export default defineComponent({
     FormDesignTextarea,
     FormDesignWrapper,
     FormDesignNumber,
-    FormDesignTable
+    FormDesignTable,
+    FormDesignText,
+    VueDraggableNext,
   },
   data(): IData {
     return {
       formValues: {},
+      schema: { controls: [], category: "" },
     };
   },
   props: {
-    jsonForms: { type: Array as PropType<FormJsonSchema[]> },
+    jsonForms: { type: Object as PropType<FormJsonSchema> },
     preview: { type: Boolean as PropType<boolean>, default: false },
   },
   created() {
@@ -69,7 +82,19 @@ export default defineComponent({
     showFormInfo() {
       console.log(this.formValues);
     },
+    reorder(){
+      this.$emit("onReorder", [...this.schema?.controls])
+    },
   },
+  watch:{
+    jsonForms:{
+      handler:function(newVal:FormJsonSchema){
+        this.schema = {...newVal, controls: [...newVal.controls]}
+      },
+      immediate: true,
+      deep:true,
+    }
+  }
 });
 </script>
 
@@ -102,4 +127,31 @@ export default defineComponent({
 ::-webkit-scrollbar-thumb:hover {
   background: #25623f;
 }
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from{
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* .list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+} */
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+/* .list-leave-active {
+  position: absolute;
+} */
 </style>

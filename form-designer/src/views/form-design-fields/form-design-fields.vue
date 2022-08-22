@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>Basic Fields</span><br />
+    <div class="border-bottom">Basic Fields</div>
     <div class="row gx-4 gy-1">
       <div
         class="d-flex justify-content-between form-designer-field-list col-6"
@@ -19,7 +19,12 @@
 </template>
 
 <script lang="ts">
-import { FieldDetail, FieldType, FormJsonSchema } from "@/models";
+import {
+  FieldDetail,
+  FieldType,
+  FormControlJsonSchema,
+  FormJsonSchema,
+} from "@/models";
 import { defineComponent } from "vue";
 import { v4 as uuidv4 } from "uuid";
 interface FieldList {
@@ -60,6 +65,11 @@ export default defineComponent({
           name: "Table",
           icon: "bi-grid-3x2 bi form-icon",
         },
+        {
+          type: FieldType.TEXT,
+          name: "Text",
+          icon: "bi bi-fonts form-icon",
+        },
         // {
         //   type: "button",
         //   name: "Button",
@@ -70,18 +80,18 @@ export default defineComponent({
   },
   methods: {
     emitFormField(type: FieldType) {
-      let formJsonSchema: FormJsonSchema = {
+      let formJsonSchema: FormControlJsonSchema = {
         id: uuidv4(),
         type: type,
-        name: "Default name",
+        name: `field_${uuidv4()}`,
         title: "Default Title",
-        // options: [],
+        placeholder: "Please enter...",
         required: false,
       };
       if (type === FieldType.CHECKBOX || type === FieldType.RADIO) {
         formJsonSchema = {
           ...formJsonSchema,
-          options: [{ value: "default option" }],
+          options: [{ value: "default option", name: "default name" }],
         };
       }
       this.$emit("onAddItem", formJsonSchema);

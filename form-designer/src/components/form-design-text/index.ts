@@ -1,0 +1,1 @@
+export { default as FormDesignText} from './form-design-text.vue';

@@ -1,32 +1,46 @@
 <template>
   <div class="form-group">
-    <label>Inline radios</label>
-    <div class="radio-inline">
+    <label>{{schema?.title}}</label>
+    <div class="radio-inline" v-for="option in schema?.options">
       <label class="radio">
-        <input type="radio" name="radios2" />
+        <input type="radio" :value="option.value" v-model="value"/>
         <span></span>
-        Option 1
-      </label>
-      <label class="radio">
-        <input type="radio" name="radios2" />
-        <span></span>
-        Option 2
-      </label>
-      <label class="radio">
-        <input type="radio" name="radios2" />
-        <span></span>
-        Option 3
+        {{option.name}}
       </label>
     </div>
-    <span class="form-text text-muted">Some help text goes here</span>
   </div>
 </template>
 
-<style scoped></style>
-
 <script lang="ts">
-import { defineComponent } from "vue";
+import { FormControlJsonSchema } from "@/models";
+import { defineComponent, PropType } from "vue";
 export default defineComponent({
-  name: "FormDesignRadio",
+  props: {
+    schema: { type: Object as PropType<FormControlJsonSchema> },
+    modelValue: {
+      type: [Array, Boolean] as PropType<string[] | boolean>,
+      default: (props:any)=>{
+        console.log(props,"2222");
+        
+        if(props?.schema?.options?.length > 1){
+          return [];
+        }
+        return false;
+      },
+    },
+  },
+  emits: ["update:modelValue"],
+  computed: {
+    value: {
+      get() {
+        return this.modelValue;
+      },
+      set(value: string[] | boolean) {
+        this.$emit("update:modelValue", value);
+      },
+    },
+  },
 });
 </script>
+
+<style scoped></style>

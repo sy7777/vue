@@ -1,8 +1,8 @@
 <template>
   <div class="main-container">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
+       <router-link to="/">Home</router-link> |
+      <!--<router-link to="/about">About</router-link> | -->
       <router-link to="/form">Form Designer</router-link>
     </nav>
     <router-view />
@@ -30,14 +30,15 @@ body,
 }
 nav {
   padding: 20px;
+  background-color: #25623f;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #25623f;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #fff;
 }
 </style>

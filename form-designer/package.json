@@ -8,13 +8,16 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "lodash": "^4.17.21",
     "uuid": "^8.3.2",
     "vue": "^3.2.13",
     "vue-bs-modal": "^0.7.4",
+    "vue-draggable-next": "^2.1.1",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.184",
     "@types/uuid": "^8.3.4",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",

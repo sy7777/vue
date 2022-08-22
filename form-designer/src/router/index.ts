@@ -3,8 +3,8 @@ import { HomeView, FormDesign, AboutView } from "@/views";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "form",
+    component: FormDesign,
   },
   {
     path: "/form",

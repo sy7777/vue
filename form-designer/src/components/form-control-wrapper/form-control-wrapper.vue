@@ -4,19 +4,23 @@
     @mouseover="showControlOption = true"
     @mouseleave="showControlOption = false"
   >
-    <span class="control-view col-md-8">
+    <span class="control-view col-8">
       <slot></slot>
     </span>
-    <span
-      class="control-option-container col-md-1"
-      :class="getControlOptionClass()"
-    >
-      <div class="d-flex flex-column align-self-center justify-content-center">
-        <i class="bi bi-arrows-move"></i>
-        <i class="bi bi-gear" @click="editSchema()"></i>
-        <i class="bi bi-trash" @click="deleteSchema()"></i>
-      </div>
-    </span>
+
+      <span
+        class="control-option-container col-1"
+        :class="getControlOptionClass()"
+      >
+        <div
+          class="d-flex flex-column align-items-center justify-content-center"
+        >
+          <i class="bi bi-arrows-move drag-handle"></i>
+          <i class="bi bi-gear" @click="editSchema()"></i>
+          <i class="bi bi-trash" @click="deleteSchema()"></i>
+        </div>
+      </span>
+
   </div>
 </template>
 
@@ -25,9 +29,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "FormControlWrapper",
-  //   props: {
-  //     msg: String,
-  //   },
   data() {
     return {
       showControlOption: false,
@@ -56,12 +57,14 @@ export default defineComponent({
   border: 1px solid #25623f;
   background-color: #25623f;
   display: none;
-  text-align: center;
-  left: 84%;
+  right: 5%;
+  top: 15%;
+  /* text-align: center; */
+  /* left: 84%; */
 }
 .control-option-container.show {
   display: block;
-  /* height: 66px; */
+  height: 72px;
   /* line-height: 66px; */
 }
 .form-control-wrapper {
