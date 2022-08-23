@@ -4,7 +4,6 @@
     <textarea
       class="form-control"
       :placeholder="schema?.placeholder"
-     
       rows="3"
       v-model="value"
     ></textarea>
@@ -33,7 +32,7 @@ export default defineComponent({
       get() {
         return this.modelValue;
       },
-      set(value: string[] | boolean) {
+      set(value: string) {
         this.$emit("update:modelValue", value);
       },
     },

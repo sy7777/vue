@@ -24,8 +24,6 @@ export default defineComponent({
     modelValue: {
       type: [Array, Boolean] as PropType<string[] | boolean>,
       default: (props: any) => {
-        console.log(props, "111");
-
         if (props?.schema?.options?.length > 1) {
           return [];
         }
@@ -49,10 +47,10 @@ export default defineComponent({
 
 <style scoped>
 .checkbox > input:checked ~ span {
-  background-color: #fff;
+  background-color: #25623f;
 }
 .checkbox > input:checked ~ span:after {
-  border-color: #ffffff;
+  border-color: #25623f;
 }
 .checkbox > input:checked ~ span:after {
   display: block;
@@ -61,42 +59,16 @@ export default defineComponent({
   width: 5px;
   height: 10px;
 }
-/* input[type="checkbox"] {
-    border-radius: .2em;
-  }
-  
-  input[type="checkbox"]:after {
-    content: '\2714';
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    color:#000;
-    font-size: 2.5em;
-    font-family: meiryo, "sans-serif";
-    opacity: 0;
-    transition: all .1s ease;
-    transform: translate(-50%, -50%) scale3d(.2, .2, 1);
-    transform-origin: center center;
-  }
-  
-  input[type="checkbox"]:checked:after {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale3d(1.2, 1.2, 1);
-  } */
 label {
   display: inline-block;
-  width: 100px;
+  /* width: 100px; */
   text-align: left;
   line-height: 26px;
+  padding: 2px;
 }
 label input[type="checkbox"] {
   display: none;
 }
-/* label input[type="checkbox"]::after {
-  display: none;
-  content: '\2714';
-} */
 label input[type="checkbox"] + span {
   box-sizing: border-box;
   display: inline-block;

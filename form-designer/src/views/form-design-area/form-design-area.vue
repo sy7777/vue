@@ -1,18 +1,38 @@
 <template>
-  <div class="design-container" :class="{ 'modal-body': preview }">
-    <div class="text-center p-2" v-if="!preview">Design your form</div>
+  <div class="design-container" :style="getContainerStyle()">
+    <div class="border-bottom d-flex align-items-center" v-if="!preview">
+      <i class="bi bi-eye" @click="previewForm"></i>
+      <i class="bi bi-clipboard-check"></i>
+    </div>
+    <!-- <transition name="list"> -->
+    <div
+      class="empty-state d-flex justify-content-center align-items-center"
+      v-if="!schema.controls.length && !preview"
+      
+    >
+      <EmptyState :emptyMsg="emptyMsg" />
+    </div>
+    <!-- </transition> -->
     <div v-if="preview">
-      <div v-for="form in schema.controls" :key="form.id">
-        <component
-          :is="form.type"
-          :schema="form"
-          v-model="formValues[form.name]"
-        ></component>
+      <div class="modal-header"><h5 class="modal-title">Preview</h5></div>
+      <div class="modal-body">
+        <div v-for="form in schema.controls" :key="form.id">
+          <component
+            :is="form.type"
+            :schema="form"
+            v-model="formValues[form.name]"
+          ></component>
+        </div>
       </div>
     </div>
     <div v-else>
-      <VueDraggableNext v-model="schema.controls"  ghost-class="ghost" handle=".drag-handle" @change="reorder">
-        <transition-group name="list" >
+      <VueDraggableNext
+        v-model="schema.controls"
+        ghost-class="ghost"
+        handle=".drag-handle"
+        @change="reorder"
+      >
+        <transition-group name="list" v-if="schema?.controls?.length">
           <div v-for="form in schema.controls" :key="form.id">
             <FormDesignWrapper
               @onDelSchema="delSchema(form.id)"
@@ -23,8 +43,16 @@
         </transition-group>
       </VueDraggableNext>
     </div>
-
-    <button @click="showFormInfo()" v-if="preview">Show</button>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-primary"
+        @click="showFormInfo()"
+        v-if="preview"
+      >
+        Show
+      </button>
+    </div>
   </div>
 </template>
 
@@ -41,10 +69,12 @@ import {
 } from "@/components";
 import { FormControlJsonSchema, FormJsonSchema } from "@/models";
 import { VueDraggableNext } from "vue-draggable-next";
-import { defineComponent, PropType } from "vue";
+import { CSSProperties, defineComponent, PropType, StyleValue } from "vue";
+import { EmptyState } from "@/components/empty-state";
 interface IData {
   formValues: Record<string, any>;
   schema: FormJsonSchema;
+  emptyMsg: string;
 }
 export default defineComponent({
   name: "FormDesignArea",
@@ -58,11 +88,13 @@ export default defineComponent({
     FormDesignTable,
     FormDesignText,
     VueDraggableNext,
+    EmptyState,
   },
   data(): IData {
     return {
       formValues: {},
       schema: { controls: [], category: "" },
+      emptyMsg: "Please add the form controls",
     };
   },
   props: {
@@ -82,19 +114,27 @@ export default defineComponent({
     showFormInfo() {
       console.log(this.formValues);
     },
-    reorder(){
-      this.$emit("onReorder", [...this.schema?.controls])
+    reorder() {
+      this.$emit("onReorder", [...this.schema?.controls]);
     },
+    previewForm() {
+      this.$emit("onPreview");
+    },
+    getContainerStyle(){
+      return{
+        "overflow-y": this.schema?.controls?.length ?  "auto" : "hidden"
+      } as StyleValue
+    }
   },
-  watch:{
-    jsonForms:{
-      handler:function(newVal:FormJsonSchema){
-        this.schema = {...newVal, controls: [...newVal.controls]}
+  watch: {
+    jsonForms: {
+      handler: function (newVal: FormJsonSchema) {
+        this.schema = { ...newVal, controls: [...newVal.controls] };
       },
       immediate: true,
-      deep:true,
-    }
-  }
+      deep: true,
+    },
+  },
 });
 </script>
 
@@ -103,7 +143,7 @@ export default defineComponent({
   background-color: #f3f5f9;
   text-align: left;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   overflow-x: hidden;
 }
 /* width */
@@ -134,24 +174,19 @@ export default defineComponent({
 }
 
 .list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
+.list-enter-active{
   transition: all 0.5s ease;
 }
 
-.list-enter-from{
+.list-enter-from {
   opacity: 0;
   transform: translateX(30px);
 }
-
-/* .list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-} */
-
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-/* .list-leave-active {
-  position: absolute;
-} */
+i {
+  cursor: pointer;
+  margin: 0 7px 0 7px;
+}
+.empty-state {
+  height: 90%;
+}
 </style>

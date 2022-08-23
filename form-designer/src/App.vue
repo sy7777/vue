@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <nav>
-       <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link> |
       <!--<router-link to="/about">About</router-link> | -->
       <router-link to="/form">Form Designer</router-link>
     </nav>
@@ -26,6 +26,7 @@ body,
 .main-container {
   width: 100%;
   height: 100%;
+  min-width: 1260px;
   /* background-color: #42b983; */
 }
 nav {

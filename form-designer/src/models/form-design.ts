@@ -21,6 +21,7 @@ export interface FormControlJsonSchema {
   placeholder?: string;
   options?: FormOptionSchema[];
   required: boolean;
+  trs?: TableRow[];
 }
 interface FormOptionSchema {
   value: string;
@@ -32,4 +33,11 @@ export interface FormJsonSchema {
   // title: string;
   // layout: string;
   category: string;
+}
+export interface TableRow {
+  tds: TableColumn[];
+}
+export interface TableColumn {
+  colspan: number;
+  rowspan: number;
 }

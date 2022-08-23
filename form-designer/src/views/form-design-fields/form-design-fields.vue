@@ -1,20 +1,20 @@
 <template>
   <div>
     <div class="border-bottom">Basic Fields</div>
-    <div class="row gx-4 gy-1">
+    <!-- <div class="row gx-1 gy-1"> -->
       <div
-        class="d-flex justify-content-between form-designer-field-list col-6"
+        class="d-flex justify-content-center form-designer-field-list"
         v-for="field in fields"
       >
         <div
-          class="form-designer-field form-draggable"
+          class="form-designer-field"
           @click="emitFormField(field.type)"
         >
           <strong>{{ field.name }}</strong>
           <i :class="field.icon"></i>
         </div>
       </div>
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -92,6 +92,37 @@ export default defineComponent({
         formJsonSchema = {
           ...formJsonSchema,
           options: [{ value: "default option", name: "default name" }],
+        };
+      }
+      if (type === FieldType.TABLE) {
+        formJsonSchema = {
+          ...formJsonSchema,
+          trs: [
+            {
+              tds: [
+                {
+                  colspan: 1,
+                  rowspan: 1,
+                },
+                {
+                  colspan: 1,
+                  rowspan: 1,
+                },
+              ],
+            },
+            {
+              tds: [
+                {
+                  colspan: 1,
+                  rowspan: 1,
+                },
+                {
+                  colspan: 1,
+                  rowspan: 1,
+                },
+              ],
+            },
+          ],
         };
       }
       this.$emit("onAddItem", formJsonSchema);

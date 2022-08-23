@@ -7,3 +7,4 @@ export * from "./form-design-textarea";
 export * from "./form-design-number";
 export * from "./form-design-table";
 export * from "./form-design-text";
+export * from "./empty-state";

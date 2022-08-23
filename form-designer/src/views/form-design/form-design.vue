@@ -1,17 +1,12 @@
 <template>
   <div class="form-container">
-    <!-- <nav aria-label="breadcrumb"> -->
-    <div class="d-flex justify-content-center align-items-center p-2">
+
+    <!-- <div class="d-flex justify-content-center align-items-center p-2">
       <span>Form Design / </span> &nbsp;
       <span @click="previewForm" class="form-btn d-flex align-items-center justify-content-center"> Preview the form</span>
-    </div>
-    <!-- <ol class="breadcrumb d-flex justify-content-center">
-      <li ></li> 
-      <li >
-        <button class="btn" @click="previewForm">Preview the form</button>
-      </li>
-    </ol> -->
-    <!-- </nav> -->
+      <span @click="saveForm" class="form-btn d-flex align-items-center justify-content-center"> Save the form</span>
+    </div> -->
+
 
     <div class="d-flex justify-content-between row form-detail-box">
       <FormDesignFields @onAddItem="addToFormJson($event)" class="col" />
@@ -21,11 +16,12 @@
         @onDelSchema="deleteSchema($event)"
         @onEditSchema="onSelectSchema($event)"
         @onReorder="reorderSchema($event)"
+        @onPreview="previewForm"
       />
       <FormDesignCustomise
         :schema="selectedSchema"
         @onUpdateControlDetail="updateControls($event)"
-        class="col"
+        class="col-4"
       />
     </div>
   </div>
@@ -107,6 +103,9 @@ export default defineComponent({
         }
       });
     },
+    saveForm(){
+      console.log(this.formJson);     
+    }
   },
 });
 </script>
@@ -114,7 +113,7 @@ export default defineComponent({
 <style scoped>
 .form-container {
   width: 100%;
-  min-width: 1248px;
+  /* min-width: 1250px; */
   height: calc(100% - 64px);
   /* border: 7px dashed #25623f; */
 }

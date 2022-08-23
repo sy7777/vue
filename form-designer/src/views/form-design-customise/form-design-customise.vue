@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="customise-area">
     <div class="border-bottom">Customise the field</div>
     <div v-if="selectedSchema">
       <!-- {{ selectedSchema.id }} -->
@@ -11,7 +11,10 @@
           v-model="selectedSchema.title"
         />
       </div>
-      <div class="form-group d-flex flex-column align-items-start">
+      <div
+        class="form-group d-flex flex-column align-items-start"
+        v-if="!hideFieldName"
+      >
         <label>Field Name(Short name of the title)</label>
         <input type="text" class="form-control" v-model="selectedSchema.name" />
       </div>
@@ -32,35 +35,85 @@
           ><i class="bi bi-plus-circle" @click="addOption"></i>
         </div>
         <div>
-          <div class="row" v-for="option in schema?.options">
+          <div
+            class="row"
+            v-for="(option, index) in selectedSchema?.options"
+            :key="index"
+          >
             <div class="col-5 p-1">
               <input type="text" class="form-control" v-model="option.name" />
             </div>
             <div class="col-5 p-1">
               <input type="text" class="form-control" v-model="option.value" />
             </div>
-            <div class="col-2 p-1 d-flex align-items-center justify-content-center">
-              <i class="bi bi-trash"></i>
+            <div
+              class="col-2 p-1 d-flex align-items-center justify-content-center"
+            >
+              <i class="bi bi-trash" @click="deleteOption(index)"></i>
             </div>
           </div>
         </div>
       </div>
+      <div class="form-group" v-if="displayTableOption">
+        <div class="d-flex justify-content-between">
+          <label>Table Config</label>
+          <div class="d-flex">
+            <i class="bi bi-plus-circle" @click="addRow">Add Row</i>
+            <i class="bi bi-plus-circle" @click="addColumn">Add Column</i>
+          </div>
+        </div>
+        <div>
+          <div
+            class="row"
+            v-for="(row, index) in selectedSchema?.trs"
+            :key="index"
+          >
+            <!-- <div class="col-5 p-1">
+              <input type="text" class="form-control" />
+            </div>
+            <div class="col-5 p-1">
+              <input type="text" class="form-control" />
+            </div>
+            <div
+              class="col-2 p-1 d-flex align-items-center justify-content-center"
+            >
+              <i class="bi bi-trash" @click="deleteOption(index)"></i>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-else
+      class="empty-state d-flex justify-content-center align-items-center"
+    >
+      <EmptyState :emptyMsg="emptyMsg"></EmptyState>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { FieldType, FormControlJsonSchema, FormJsonSchema } from "@/models";
+import {
+  FieldType,
+  FormControlJsonSchema,
+  FormJsonSchema,
+  TableRow,
+} from "@/models";
 import { defineComponent, PropType } from "vue";
 import { cloneDeep } from "lodash";
+import { EmptyState } from "@/components";
+import { tsRestType } from "@babel/types";
 interface IData {
   selectedSchema: FormControlJsonSchema | undefined;
+  emptyMsg: string;
 }
 export default defineComponent({
   name: "FormDesignCustomise",
+  components: { EmptyState },
   data(): IData {
     return {
       selectedSchema: undefined,
+      emptyMsg: "Please select a form control.",
     };
   },
   props: {
@@ -68,9 +121,40 @@ export default defineComponent({
   },
   methods: {
     addOption() {
-      this.schema?.options?.push({
+      this.selectedSchema?.options?.push({
         name: "default name",
         value: "default option",
+      });
+    },
+    deleteOption(index: number) {
+      if (
+        this.selectedSchema?.options?.length &&
+        this.selectedSchema?.options?.length > 1
+      ) {
+        this.selectedSchema?.options?.splice(index, 1);
+      }
+    },
+    addRow() {
+      const lastRow =
+        this.selectedSchema?.trs?.[this.selectedSchema?.trs?.length - 1];
+      // const newRow = this.selectedSchema?.trs
+      this.selectedSchema?.trs?.push(cloneDeep(lastRow) as TableRow);
+    },
+    deleteRow(index: number) {
+      if (this.selectedSchema?.trs && this.selectedSchema?.trs.length > 1) {
+        this.selectedSchema?.trs?.splice(index, 1);
+      }
+    },
+    addColumn() {
+      this.selectedSchema?.trs?.forEach((tr) => {
+        tr.tds.push({ colspan: 1, rowspan: 1 });
+      });
+    },
+    deleteColumn(index: number) {
+      this.selectedSchema?.trs?.forEach((tr) => {
+        if (tr.tds.length > 1) {
+          tr.tds.splice(index, 1);
+        }
       });
     },
   },
@@ -87,6 +171,15 @@ export default defineComponent({
         this.selectedSchema?.type === FieldType.NUMBER ||
         this.selectedSchema?.type === FieldType.TEXTAREA
       );
+    },
+    hideFieldName() {
+      return (
+        this.selectedSchema?.type === FieldType.TEXT ||
+        this.selectedSchema?.type === FieldType.TABLE
+      );
+    },
+    displayTableOption() {
+      return this.selectedSchema?.type === FieldType.TABLE;
     },
   },
   watch: {
@@ -122,8 +215,13 @@ export default defineComponent({
 .form-group {
   padding: 0.7rem;
 }
-i{
+i {
   cursor: pointer;
 }
-
+.customise-area {
+  height: 100%;
+}
+.empty-state {
+  height: 90%;
+}
 </style>
