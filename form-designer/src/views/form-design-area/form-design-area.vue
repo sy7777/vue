@@ -148,7 +148,8 @@ export default defineComponent({
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 20px;
+  width: 7px;
+  height: 7px;
 }
 
 /* Track */

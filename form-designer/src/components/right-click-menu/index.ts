@@ -1,0 +1,1 @@
+export {default as RightClickMenu} from "./right-click-menu.vue";

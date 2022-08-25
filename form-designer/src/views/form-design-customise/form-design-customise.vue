@@ -58,26 +58,85 @@
         <div class="d-flex justify-content-between">
           <label>Table Config</label>
           <div class="d-flex">
-            <i class="bi bi-plus-circle" @click="addRow">Add Row</i>
+            <i class="bi bi-plus-circle" @click="addRow">Add Row &nbsp;</i>
             <i class="bi bi-plus-circle" @click="addColumn">Add Column</i>
           </div>
         </div>
         <div>
           <div
-            class="row"
+            class="row-area"
             v-for="(row, index) in selectedSchema?.trs"
             :key="index"
           >
-            <!-- <div class="col-5 p-1">
-              <input type="text" class="form-control" />
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    <div class="d-flex justify-content-between">
+                      <div>row - {{ index + 1 }}</div>
+                      <div class="d-flex">
+                        <i class="bi bi-gear" @click="configRow(row)"></i>
+                        <i class="bi bi-trash" @click="deleteRow(index)"></i>
+                      </div>
+                    </div>
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  class="accordion-collapse collapse show"
+                  aria-labelledby="headingOne"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div class="accordion-body">
+                    <div v-for="(column, index) in row.tds" class="row">
+                      <div class="col-3 p-1">
+                        colspan
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-3 p-1">
+                        rowspan
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div class="col-3 p-1">
+                        type
+                        <input type="text" class="form-control" />
+                      </div>
+                      <div
+                        class="col-2 p-1 d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-trash" @click="deleteOption(index)"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-5 p-1">
-              <input type="text" class="form-control" />
-            </div>
-            <div
-              class="col-2 p-1 d-flex align-items-center justify-content-center"
-            >
-              <i class="bi bi-trash" @click="deleteOption(index)"></i>
+
+            <!-- <div v-for="(column, index) in row.tds" class="row">
+              <div class="col-3 p-1">
+                colspan
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-3 p-1">
+                rowspan
+                <input type="text" class="form-control" />
+              </div>
+              <div class="col-3 p-1">
+                type
+                <input type="text" class="form-control" />
+              </div>
+              <div
+                class="col-2 p-1 d-flex align-items-center justify-content-center"
+              >
+                <i class="bi bi-trash" @click="deleteOption(index)"></i>
+              </div>
             </div> -->
           </div>
         </div>
@@ -103,6 +162,7 @@ import { defineComponent, PropType } from "vue";
 import { cloneDeep } from "lodash";
 import { EmptyState } from "@/components";
 import { tsRestType } from "@babel/types";
+import { EditTableRow } from "@/components/edit-table-row";
 interface IData {
   selectedSchema: FormControlJsonSchema | undefined;
   emptyMsg: string;
@@ -156,6 +216,9 @@ export default defineComponent({
           tr.tds.splice(index, 1);
         }
       });
+    },
+    configRow(row: TableRow) {
+      this.$vbsModal.open({ content: EditTableRow });
     },
   },
   computed: {
@@ -220,8 +283,14 @@ i {
 }
 .customise-area {
   height: 100%;
+  overflow: auto;
 }
 .empty-state {
   height: 90%;
+}
+.row-area {
+  border: 1px dashed #0000;
+  background-color: rgb(237, 232, 232);
+  margin: 7px;
 }
 </style>

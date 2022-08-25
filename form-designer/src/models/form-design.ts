@@ -41,3 +41,8 @@ export interface TableColumn {
   colspan: number;
   rowspan: number;
 }
+export interface TableCell {
+  tableId: string;
+  trIndex: number;
+  tdIndex: number;
+}
