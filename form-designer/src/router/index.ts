@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { HomeView, FormDesign, AboutView } from "@/views";
+import { FormDesign, AboutView } from "@/views";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",

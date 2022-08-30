@@ -46,3 +46,12 @@ export interface TableCell {
   trIndex: number;
   tdIndex: number;
 }
+
+export enum ClickMenuOptions {
+  RIGHT = "Merge to the right",
+  BOTTOM = "Merge to the bottom",
+  TYPE = "divider",
+  ADD_ROW = "add row",
+  ADD_COLUMN = "add column",
+}
+// export interface Menu

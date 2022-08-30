@@ -119,7 +119,7 @@ export default defineComponent({
 }
 .form-detail-box {
   width: 100%;
-  height: calc(100% - 64px);
+  height: 100%;
 }
 .form-btn {
   background-color: #25623f;

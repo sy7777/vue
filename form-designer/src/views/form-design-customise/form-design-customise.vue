@@ -118,26 +118,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- <div v-for="(column, index) in row.tds" class="row">
-              <div class="col-3 p-1">
-                colspan
-                <input type="text" class="form-control" />
-              </div>
-              <div class="col-3 p-1">
-                rowspan
-                <input type="text" class="form-control" />
-              </div>
-              <div class="col-3 p-1">
-                type
-                <input type="text" class="form-control" />
-              </div>
-              <div
-                class="col-2 p-1 d-flex align-items-center justify-content-center"
-              >
-                <i class="bi bi-trash" @click="deleteOption(index)"></i>
-              </div>
-            </div> -->
           </div>
         </div>
       </div>

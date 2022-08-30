@@ -26,27 +26,51 @@
 </template>
 
 <script lang="ts">
-import { FormControlJsonSchema, TableCell, TableColumn } from "@/models";
+import {
+  ClickMenuOptions,
+  FormControlJsonSchema,
+  TableCell,
+  TableColumn,
+  TableRow,
+} from "@/models";
 import { defineComponent, PropType } from "vue";
 
 import { RightClickMenu } from "../right-click-menu";
-
+interface SelectedOption {
+  name?: string;
+  type?: string;
+}
+interface IData {
+  options: SelectedOption[];
+  selectedOption: SelectedOption | undefined;
+  selectedCell: TableCell | undefined;
+  tableJson: TableRow[] | undefined;
+}
 export default defineComponent({
   name: "Table",
   components: { RightClickMenu },
-  data() {
+  data(): IData {
     return {
       options: [
-        { name: "merge right" },
-        { name: "merge bottom" },
-        { type: "divider" },
-        { name: "add row" },
+        { name: ClickMenuOptions.RIGHT },
+        { name: ClickMenuOptions.BOTTOM },
+        { type: ClickMenuOptions.TYPE },
+        { name: ClickMenuOptions.ADD_ROW },
+        { name: ClickMenuOptions.ADD_COLUMN },
       ],
+      selectedOption: undefined,
+      selectedCell: undefined,
+      tableJson: undefined || this.schema?.trs,
     };
   },
   props: {
     schema: { type: Object as PropType<FormControlJsonSchema | undefined> },
   },
+  // computed:{
+  //   tableJson(){
+  //     return this.tableJson = this.schema?.trs
+  //   }  ,
+  // },
   methods: {
     configureTableSpan(e: any, trIndex: number, tdIndex: number) {
       const selectedCell: TableCell = {
@@ -54,12 +78,42 @@ export default defineComponent({
         trIndex,
         tdIndex,
       };
-      console.log(this.$refs);
-      
       (this.$refs.tableCellMenu as any).showMenu(e, selectedCell);
     },
-    optionClicked({ item, option }: any) {     
-      console.log(item, option);
+    optionClicked({ item, option }: any) {
+      this.selectedOption = option;
+      this.selectedCell = item;
+      // this.$emit("optionClicked", option.name);
+      this.mergeRight();
+      // console.log(this.selectedOption, this.selectedCell);
+      // console.log(this.tableJson);
+    },
+    mergeRight() {
+      // console.log(this.selectedOption);
+      switch (this.selectedOption?.name) {
+        case ClickMenuOptions.RIGHT:
+          if (this.tableJson && this.selectedCell) {
+            // get sum of all colspan
+            const tds = this.tableJson[this.selectedCell?.trIndex].tds;
+            const sumCols = tds.map(td=>td.rowspan).reduce((partial,value)=>{return partial + value});
+            console.log("sumCols",sumCols);         
+            // console.log(tds[this.selectedCell?.tdIndex].colspan);
+            if (
+              tds[this.selectedCell?.tdIndex + 1].colspan > 0
+            ) {
+              console.log(this.selectedCell, tds);
+              tds[this.selectedCell?.tdIndex].colspan += 1;
+              tds[this.selectedCell?.tdIndex + 1].colspan -= 1;
+              console.log(this.selectedCell, tds);
+            }
+            // console.log(this.selectedCell, tds);
+          }
+      }
+      // if (this.selectedOption?.name == ) {
+      //   console.log("mergeRight has been clicked: ", this.selectedOption.name);
+      //   if()
+      //   this.tableJson?.
+      // }
     },
   },
 });

@@ -7,8 +7,7 @@
     <!-- <transition name="list"> -->
     <div
       class="empty-state d-flex justify-content-center align-items-center"
-      v-if="!schema.controls.length && !preview"
-      
+      v-if="!schema.controls.length && !preview"  
     >
       <EmptyState :emptyMsg="emptyMsg" />
     </div>
