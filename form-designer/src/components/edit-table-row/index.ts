@@ -1,1 +1,0 @@
-export {default as EditTableRow} from "./edit-table-row.vue";
