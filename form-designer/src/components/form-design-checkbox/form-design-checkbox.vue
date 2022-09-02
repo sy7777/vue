@@ -1,14 +1,14 @@
 <template>
   <div class="form-group">
-    <label>{{ schema?.title }}</label>
+    <label  v-if="schema?.title">{{ schema?.title }}</label>
     <div class="checkbox-inline">
       <label
         class="checkbox checkbox-rounded"
         v-for="option in schema?.options"
       >
         <input type="checkbox" :value="option.value" v-model="value" />
-        <span></span>
-        {{ option.name }}
+        <span class="checkmark"></span>
+        <span v-if="option.name">{{ option.name }}</span>
       </label>
     </div>
     <!-- <span class="form-text text-muted">Some help text goes here</span> -->
@@ -38,6 +38,8 @@ export default defineComponent({
         return this.modelValue;
       },
       set(value: string[] | boolean) {
+        console.log(value);
+        
         this.$emit("update:modelValue", value);
       },
     },
@@ -45,57 +47,75 @@ export default defineComponent({
 });
 </script>
 
+
 <style scoped>
-.checkbox > input:checked ~ span {
+.checkbox {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 17px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f3f5f9;
+  border: 2px solid #25623f;
+  border-radius: 3px;
+  margin-top: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox input:checked ~ .checkmark {
   background-color: #25623f;
 }
-.checkbox > input:checked ~ span:after {
-  border-color: #25623f;
-}
-.checkbox > input:checked ~ span:after {
-  display: block;
-}
-.checkbox > span:after {
-  width: 5px;
-  height: 10px;
-}
-label {
-  display: inline-block;
-  /* width: 100px; */
-  text-align: left;
-  line-height: 26px;
-  padding: 2px;
-}
-label input[type="checkbox"] {
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
 }
-label input[type="checkbox"] + span {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border: 2px solid #25623f;
-  vertical-align: sub;
-  margin-right: 5px;
-}
-label input[type="checkbox"] + span > span {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  float: left;
-  background: #25623f;
-  opacity: 0;
-}
-label input[type="checkbox"]:checked + span {
-  border-color: #25623f;
-}
-label:hover input[type="checkbox"] + span > span {
-  opacity: 0.5;
-}
-label input[type="checkbox"]:checked + span > span {
-  opacity: 1;
+
+/* Show the checkmark when checked */
+.checkbox input:checked ~ .checkmark:after {
+  display: block;
 }
 
-
+/* Style the checkmark/indicator tick */
+.checkbox .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 </style>

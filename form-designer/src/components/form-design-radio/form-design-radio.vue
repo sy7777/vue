@@ -1,11 +1,11 @@
 <template>
   <div class="form-group">
-    <label>{{schema?.title}}</label>
+    <label v-if="schema?.title">{{ schema?.title }}</label>
     <div class="radio-inline">
       <label class="radio" v-for="option in schema?.options">
-        <input type="radio" :value="option.value" v-model="value"/>
-        <span></span>
-        {{option.name}}
+        <input type="radio" :value="option.value" v-model="value" />
+        <span class="checkmark"></span>
+        <span v-if="option.name">{{ option.name }}</span>
       </label>
     </div>
   </div>
@@ -36,55 +36,72 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.radio > input:checked ~ span {
+/* .radio > input:checked ~ span {
+  background-color: #25623f;
+} */
+/* The radio */
+.radio {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 17px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #f3f5f9;
+  border: 2px solid #25623f;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+/* On mouse-over, add a grey background color */
+.radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio input:checked ~ .checkmark {
   background-color: #25623f;
 }
-.radio > input:checked ~ span:after {
-  border-color: #25623f;
-}
-.radio > input:checked ~ span:after {
-  display: block;
-}
-.radio > span:after {
-  width: 5px;
-  height: 10px;
-}
-label {
-  display: inline-block;
-  /* width: 100px; */
-  text-align: left;
-  line-height: 26px;
-  padding: 2px;
-}
-label input[type="radio"] {
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
 }
-label input[type="radio"] + span {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  padding: 2px;
-  border: 2px solid #25623f;
-  vertical-align: sub;
-  margin-right: 5px;
-  border-radius: 50%;
+
+/* Show the indicator (dot/circle) when checked */
+.radio input:checked ~ .checkmark:after {
+  display: block;
 }
-label input[type="radio"] + span > span {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  float: left;
-  background: #25623f;
-  opacity: 0;
-}
-label input[type="radio"]:checked + span {
-  border-color: #25623f;
-}
-label:hover input[type="radio"] + span > span {
-  opacity: 0.5;
-}
-label input[type="radio"]:checked + span > span {
-  opacity: 1;
+
+/* Style the indicator (dot/circle) */
+.radio .checkmark:after {
+ 	top: 4px;
+	left: 4px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
 }
 </style>
