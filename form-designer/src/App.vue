@@ -8,7 +8,10 @@
   </div>
 </template>
 
-<style>
+<style lang="scss">
+// @import "./scss/style.scss";
+// @import "./scss/plugins.scss";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

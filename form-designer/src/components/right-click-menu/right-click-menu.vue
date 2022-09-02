@@ -25,9 +25,9 @@
 import vClickOutside from "click-outside-vue3";
 import { defineComponent, PropType } from "vue";
 interface OptionClass {
-  class: string;
-  type: string;
-  name: string;
+  class?: string;
+  type?: string;
+  name?: string;
 }
 interface IData {
   item: any;
@@ -39,7 +39,7 @@ export default defineComponent({
   props: {
     elementId: {
       type: String,
-      required: true,
+      default:"",
     },
     options: {
       type: Array as PropType<OptionClass[]>,
@@ -59,13 +59,13 @@ export default defineComponent({
   },
   methods: {
     showMenu(event: any, item: any) {
-      // console.log(item, "this is item");
-      // console.log(event, "21321344");
       this.item = item;
       var menu = document.getElementById(this.elementId);
       if (!menu) {
         return;
       }
+      // console.log(item, "this is item");
+      // console.log(event, "21321344");
       if (!this.menuWidth || !this.menuHeight) {
         menu.style.visibility = "hidden";
         menu.style.display = "block";

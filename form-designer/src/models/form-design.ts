@@ -17,7 +17,7 @@ export interface FormControlJsonSchema {
   id: string;
   type: FieldType;
   name: string;
-  title: string;
+  title?: string;
   placeholder?: string;
   options?: FormOptionSchema[];
   required: boolean;
@@ -25,13 +25,11 @@ export interface FormControlJsonSchema {
 }
 interface FormOptionSchema {
   value: string;
-  name: string;
+  name?: string;
 }
 export interface FormJsonSchema {
   id?: string;
   controls: FormControlJsonSchema[];
-  // title: string;
-  // layout: string;
   category: string;
 }
 export interface TableRow {
@@ -40,6 +38,7 @@ export interface TableRow {
 export interface TableColumn {
   colspan: number;
   rowspan: number;
+  content:  FormControlJsonSchema;
 }
 export interface TableCell {
   tableId: string;
@@ -48,10 +47,10 @@ export interface TableCell {
 }
 
 export enum ClickMenuOptions {
-  RIGHT = "Merge to the right",
-  BOTTOM = "Merge to the bottom",
-  TYPE = "divider",
-  ADD_ROW = "add row",
-  ADD_COLUMN = "add column",
+  RIGHT = "Merge cells right",
+  BOTTOM = "Merge cells down",
+  CONFIGURE = "Configure cell content",
+  ADD_ROW = "add row down",
+  ADD_COLUMN = "add column right",
 }
 // export interface Menu
