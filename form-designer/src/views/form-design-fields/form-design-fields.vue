@@ -1,20 +1,17 @@
 <template>
   <div>
     <div class="border-bottom">Basic Fields</div>
-    <!-- <div class="row gx-1 gy-1"> -->
-      <div
-        class="d-flex justify-content-center form-designer-field-list"
-        v-for="field in fields"
-      >
-        <div
-          class="form-designer-field"
-          @click="emitFormField(field.type)"
-        >
-          <strong>{{ field.name }}</strong>
-          <i :class="field.icon"></i>
-        </div>
+    <div class="row g-2">
+    <div
+      class="d-flex justify-content-center form-designer-field-list col-6"
+      v-for="field in fields"
+    >
+      <div class="form-designer-field" @click="emitFormField(field.type)">
+        <strong>{{ field.name }}</strong>
+        <i :class="field.icon"></i>
       </div>
-    <!-- </div> -->
+    </div>
+    </div>
   </div>
 </template>
 
@@ -103,10 +100,26 @@ export default defineComponent({
                 {
                   colspan: 1,
                   rowspan: 1,
+                  content: {
+                    id: uuidv4(),
+                    type: FieldType.TEXT,
+                    name: `table_field_${uuidv4()}`,
+                    placeholder: "Please enter...",
+                    required: false,
+                    options: [{ value: "default option" }],
+                  },
                 },
                 {
                   colspan: 1,
                   rowspan: 1,
+                  content: {
+                    id: uuidv4(),
+                    type: FieldType.TEXT,
+                    name: `table_field_${uuidv4()}`,
+                    placeholder: "Please enter...",
+                    required: false,
+                    options: [{ value: "default option" }],
+                  },
                 },
               ],
             },
@@ -115,10 +128,26 @@ export default defineComponent({
                 {
                   colspan: 1,
                   rowspan: 1,
+                  content: {
+                    id: uuidv4(),
+                    type: FieldType.TEXT,
+                    name: `table_field_${uuidv4()}`,
+                    placeholder: "Please enter...",
+                    required: false,
+                    options: [{ value: "default option" }],
+                  },
                 },
                 {
                   colspan: 1,
                   rowspan: 1,
+                  content: {
+                    id: uuidv4(),
+                    type: FieldType.TEXT,
+                    name: `table_field_${uuidv4()}`,
+                    placeholder: "Please enter...",
+                    required: false,
+                    options: [{ value: "default option" }],
+                  },
                 },
               ],
             },

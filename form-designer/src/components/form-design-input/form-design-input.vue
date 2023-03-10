@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <label>{{schema?.title}}</label>
+    <label v-if="schema?.title">{{schema?.title}}</label>
     <input
       type="text"
       class="form-control"     

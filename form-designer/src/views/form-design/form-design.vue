@@ -1,15 +1,7 @@
 <template>
   <div class="form-container">
-
-    <!-- <div class="d-flex justify-content-center align-items-center p-2">
-      <span>Form Design / </span> &nbsp;
-      <span @click="previewForm" class="form-btn d-flex align-items-center justify-content-center"> Preview the form</span>
-      <span @click="saveForm" class="form-btn d-flex align-items-center justify-content-center"> Save the form</span>
-    </div> -->
-
-
     <div class="d-flex justify-content-between row form-detail-box">
-      <FormDesignFields @onAddItem="addToFormJson($event)" class="col" />
+      <FormDesignFields @onAddItem="addToFormJson($event)" class="col-3" />
       <FormDesignArea
         class="col-6"
         :jsonForms="formJson"
@@ -17,19 +9,25 @@
         @onEditSchema="onSelectSchema($event)"
         @onReorder="reorderSchema($event)"
         @onPreview="previewForm"
+        @onMergeRight="mergeRight"
+        @onMergeBottom="mergeBottom"
+        @onConfigureCell="configureCell"
+        @onAddColumn="addCol"
+        @onAddRow="addRow"
       />
       <FormDesignCustomise
         :schema="selectedSchema"
         @onUpdateControlDetail="updateControls($event)"
-        class="col-4"
+        ref="formCustomise"
+        class="col-3"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { FormControlJsonSchema, FormJsonSchema } from "@/models";
-import { defineComponent } from "vue";
+import { FormControlJsonSchema, FormJsonSchema, TableCell } from "@/models";
+import { Component, defineComponent } from "vue";
 import { ModalSize } from "vue-bs-modal";
 import { FormDesignArea } from "../form-design-area";
 import { FormDesignCustomise } from "../form-design-customise";
@@ -103,9 +101,39 @@ export default defineComponent({
         }
       });
     },
-    saveForm(){
-      console.log(this.formJson);     
-    }
+    saveForm() {
+      console.log(this.formJson);
+    },
+    mergeRight(cell: TableCell) {
+      this.onSelectSchema(cell.tableId);
+      this.$nextTick(()=>{
+        (this.$refs.formCustomise as typeof FormDesignCustomise).mergeRight(cell);
+      })
+    },
+    mergeBottom(cell: TableCell) {
+      this.onSelectSchema(cell.tableId);
+      this.$nextTick(()=>{
+        (this.$refs.formCustomise as typeof FormDesignCustomise).mergeBottom(cell);
+      })
+    },
+    configureCell(cell: TableCell) {
+      this.onSelectSchema(cell.tableId);
+      this.$nextTick(()=>{
+        (this.$refs.formCustomise as typeof FormDesignCustomise).configureCell(cell);
+      })
+    },
+    addCol(cell: TableCell) {
+      this.onSelectSchema(cell.tableId);
+      this.$nextTick(()=>{
+        (this.$refs.formCustomise as typeof FormDesignCustomise).addColumn(cell);
+      })   
+    },
+    addRow(cell: TableCell) {
+      this.onSelectSchema(cell.tableId);
+      this.$nextTick(()=>{
+        (this.$refs.formCustomise as typeof FormDesignCustomise).addRow(cell);
+      })
+    },
   },
 });
 </script>

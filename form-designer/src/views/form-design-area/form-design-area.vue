@@ -7,7 +7,7 @@
     <!-- <transition name="list"> -->
     <div
       class="empty-state d-flex justify-content-center align-items-center"
-      v-if="!schema.controls.length && !preview"  
+      v-if="!schema.controls.length && !preview"
     >
       <EmptyState :emptyMsg="emptyMsg" />
     </div>
@@ -19,6 +19,7 @@
           <component
             :is="form.type"
             :schema="form"
+            :preview="preview"
             v-model="formValues[form.name]"
           ></component>
         </div>
@@ -36,7 +37,15 @@
             <FormDesignWrapper
               @onDelSchema="delSchema(form.id)"
               @onEditSchema="editSchema(form.id)"
-              ><component :is="form.type" :schema="form"></component
+              ><component
+                :is="form.type"
+                :schema="form"
+                @mergeRight="mergeRight"
+                @mergeBottom="mergeBottom"
+                @configureCell="configureCell"
+                @addColumn="addColumn"
+                @addRow="addRow"
+              ></component
             ></FormDesignWrapper>
           </div>
         </transition-group>
@@ -66,7 +75,7 @@ import {
   FormDesignTable,
   FormDesignText,
 } from "@/components";
-import { FormControlJsonSchema, FormJsonSchema } from "@/models";
+import { FormControlJsonSchema, FormJsonSchema, TableCell } from "@/models";
 import { VueDraggableNext } from "vue-draggable-next";
 import { CSSProperties, defineComponent, PropType, StyleValue } from "vue";
 import { EmptyState } from "@/components/empty-state";
@@ -119,11 +128,26 @@ export default defineComponent({
     previewForm() {
       this.$emit("onPreview");
     },
-    getContainerStyle(){
-      return{
-        "overflow-y": this.schema?.controls?.length ?  "auto" : "hidden"
-      } as StyleValue
-    }
+    getContainerStyle() {
+      return {
+        "overflow-y": this.schema?.controls?.length ? "auto" : "hidden",
+      } as StyleValue;
+    },
+    mergeRight(cell: TableCell) {
+      this.$emit("onMergeRight", cell);
+    },
+    mergeBottom(cell: TableCell) {
+      this.$emit("onMergeBottom", cell);
+    },
+    configureCell(cell: TableCell) {
+      this.$emit("onConfigureCell", cell);
+    },
+    addColumn(cell: TableCell) {
+      this.$emit("onAddColumn", cell);
+    },
+    addRow(cell: TableCell) {
+      this.$emit("onAddRow", cell);
+    },
   },
   watch: {
     jsonForms: {
@@ -174,7 +198,7 @@ export default defineComponent({
 }
 
 .list-move, /* apply transition to moving elements */
-.list-enter-active{
+.list-enter-active {
   transition: all 0.5s ease;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="form-group mb-1">
-    <label>{{ schema?.title }}</label>
+    <label  v-if="schema?.title">{{ schema?.title }}</label>
     <textarea
       class="form-control"
       :placeholder="schema?.placeholder"
